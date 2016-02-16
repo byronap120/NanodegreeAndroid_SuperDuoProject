@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import it.jaschke.alexandria.AddBook;
 import it.jaschke.alexandria.MainActivity;
 import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.data.AlexandriaContract;
@@ -129,7 +130,8 @@ public class BookService extends IntentService {
             }
             bookJsonString = buffer.toString();
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Error ", e);
+            errorToastMessage(getResources().getString(R.string.not_network_connection));
+            return;
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -162,9 +164,7 @@ public class BookService extends IntentService {
             if(bookJson.has(ITEMS)){
                 bookArray = bookJson.getJSONArray(ITEMS);
             }else{
-                Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-                messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.not_found));
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+                errorToastMessage(getResources().getString(R.string.not_found));
                 return;
             }
 
@@ -199,6 +199,12 @@ public class BookService extends IntentService {
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
         }
+    }
+
+    private void errorToastMessage(String message){
+        Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+        messageIntent.putExtra(MainActivity.MESSAGE_KEY,message);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
     }
 
     private void writeBackBook(String ean, String title, String subtitle, String desc, String imgUrl) {
