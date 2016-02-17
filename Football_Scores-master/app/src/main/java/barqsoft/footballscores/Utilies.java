@@ -1,5 +1,8 @@
 package barqsoft.footballscores;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
@@ -10,16 +13,18 @@ public class Utilies
     public static final int CHAMPIONS_LEAGUE = 362;
     public static final int PRIMERA_DIVISION = 358;
     public static final int BUNDESLIGA = 351;
-    public static String getLeague(int league_num)
+
+    public static String getLeague(int league_num, Context context)
     {
+        Resources res = context.getResources();
         switch (league_num)
         {
-            case SERIE_A : return "Seria A";
-            case PREMIER_LEGAUE : return "Premier League";
-            case CHAMPIONS_LEAGUE : return "UEFA Champions League";
-            case PRIMERA_DIVISION : return "Primera Division";
-            case BUNDESLIGA : return "Bundesliga";
-            default: return "Not known League Please report";
+            case SERIE_A : return res.getString(R.string.seriaa);
+            case PREMIER_LEGAUE : return res.getString(R.string.premierleague);
+            case CHAMPIONS_LEAGUE : return res.getString(R.string.champions_league);
+            case PRIMERA_DIVISION : return res.getString(R.string.primeradivison);
+            case BUNDESLIGA : return res.getString(R.string.bundesliga);
+            default: return res.getString(R.string.not_known_league);
         }
     }
     public static String getMatchDay(int match_day,int league_num)

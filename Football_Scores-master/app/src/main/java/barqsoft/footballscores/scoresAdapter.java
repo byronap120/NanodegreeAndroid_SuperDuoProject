@@ -26,6 +26,8 @@ public class scoresAdapter extends CursorAdapter
     public static final int COL_MATCHTIME = 2;
     public double detail_match_id = 0;
     private String FOOTBALL_SCORES_HASHTAG = "#Football_Scores";
+    private Context context;
+
     public scoresAdapter(Context context,Cursor cursor,int flags)
     {
         super(context,cursor,flags);
@@ -37,6 +39,7 @@ public class scoresAdapter extends CursorAdapter
         View mItem = LayoutInflater.from(context).inflate(R.layout.scores_list_item, parent, false);
         ViewHolder mHolder = new ViewHolder(mItem);
         mItem.setTag(mHolder);
+        this.context = context;
         //Log.v(FetchScoreTask.LOG_TAG,"new View inflated");
         return mItem;
     }
@@ -71,7 +74,7 @@ public class scoresAdapter extends CursorAdapter
             match_day.setText(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY),
                     cursor.getInt(COL_LEAGUE)));
             TextView league = (TextView) v.findViewById(R.id.league_textview);
-            league.setText(Utilies.getLeague(cursor.getInt(COL_LEAGUE)));
+            league.setText(Utilies.getLeague(cursor.getInt(COL_LEAGUE), context));
             Button share_button = (Button) v.findViewById(R.id.share_button);
             share_button.setOnClickListener(new View.OnClickListener() {
                 @Override
